@@ -7,34 +7,47 @@ import PropTypes from "prop-types";
 import * as API from "../API";
 
 class Main extends React.Component {
-  componentDidMount() {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: false,
+    };
+  }
+  componentWillMount() {
+    this.setState({ isLoading: true });
     this.loadData();
   }
 
-  loadData = () => {
+  loadData = async () => {
     
     try {
-      API.getList()
+       API.getList()
         .then(data => {
-          this.updateState(data);
+            this.updateState(data);
         })
+        .then(data => this.setState({ isLoading: false }))
         .catch(function(error) {
           console.log(error.message);
         });
     } catch (e) {}
   };
 
-  updateState = data => {
+  updateState = async (data) => {
     if (data != null) {
-      this.props.mainActions.receiveData(data);
+      await this.props.mainActions.receiveData(data);
     }
   };
 
   render() {
-    let items = [];
-    if (this.props.items.data !== undefined) {
-      items = this.props.items.data.stadiums;
+    const { isLoading  } = this.state;
+
+    if (isLoading) {
+      return <p>Loading ...</p>;
     }
+    const items = this.props.items.data.stadiums;
+   
     return <MyList items={items} />;
   }
 }
