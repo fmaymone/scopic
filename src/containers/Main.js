@@ -7,12 +7,11 @@ import PropTypes from "prop-types";
 import * as API from "../API";
 
 class Main extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoading: false,
+      isLoading: false
     };
   }
   componentWillMount() {
@@ -21,11 +20,10 @@ class Main extends React.Component {
   }
 
   loadData = async () => {
-    
     try {
-       API.getList()
+      API.getList()
         .then(data => {
-            this.updateState(data);
+          this.updateState(data);
         })
         .then(data => this.setState({ isLoading: false }))
         .catch(function(error) {
@@ -34,20 +32,20 @@ class Main extends React.Component {
     } catch (e) {}
   };
 
-  updateState = async (data) => {
+  updateState = async data => {
     if (data != null) {
       await this.props.mainActions.receiveData(data);
     }
   };
 
   render() {
-    const { isLoading  } = this.state;
+    const { isLoading } = this.state;
 
     if (isLoading) {
       return <p>Loading ...</p>;
     }
     const items = this.props.items.data.stadiums;
-   
+
     return <MyList items={items} />;
   }
 }
