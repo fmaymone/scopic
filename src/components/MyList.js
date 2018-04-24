@@ -1,12 +1,7 @@
-import React, { Component } from 'react'
-import Item  from './Item';
+import React, { Component } from "react";
+import Item from "./Item";
 
-class MyList extends React.Component {
-  render() {
-    const items = this.props.items.map((item, key) => (<Item key={key} object={item} />))
-
-    return (<div>{items}</div>)
-  }
-}
+const MyList = ({ items }) =>
+  items.map((item, key) => <Item key={key} object={item} />);
 
 export default MyList;
