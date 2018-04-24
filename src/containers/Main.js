@@ -4,40 +4,36 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as mainActions from "../actions/mainActions";
 import PropTypes from "prop-types";
-const mock = {
-  stadiums: [
-    {
-      id: 1,
-      name: "Luzhniki Stadium",
-      city: "Moscow"
-    },
-    {
-      id: 2,
-      name: "Otkrytiye Arena",
-      city: "Moscow"
-    },
-    {
-      id: 3,
-      name: "Krestovsky Stadium",
-      city: "Saint Petersburg"
-    }
-  ]
-};
+import * as API from "../API";
 
 class Main extends React.Component {
-
   componentDidMount() {
     this.loadData();
   }
-  
-  loadData() {
-    this.props.mainActions.receiveData(mock);
-  }
+
+  loadData = () => {
+    
+    try {
+      API.getList()
+        .then(data => {
+          this.updateState(data);
+        })
+        .catch(function(error) {
+          console.log(error.message);
+        });
+    } catch (e) {}
+  };
+
+  updateState = data => {
+    if (data != null) {
+      this.props.mainActions.receiveData(data);
+    }
+  };
 
   render() {
     let items = [];
-    if(this.props.items.data !== undefined){
-       items = this.props.items.data.stadiums;
+    if (this.props.items.data !== undefined) {
+      items = this.props.items.data.stadiums;
     }
     return <MyList items={items} />;
   }
