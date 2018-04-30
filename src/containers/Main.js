@@ -14,7 +14,7 @@ class Main extends React.Component {
       isLoading: false
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.setState({ isLoading: true });
     this.loadData();
   }
