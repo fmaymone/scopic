@@ -41,12 +41,12 @@ class Main extends React.Component {
   render() {
     const { isLoading } = this.state;
 
-    if (isLoading) {
+    if (this.props.items.length === 0) {
       return <p>Loading ...</p>;
+    } else {
+      const items = this.props.items.data.stadiums;
+      return <MyList items={items} />;
     }
-    const items = this.props.items.data.stadiums;
-
-    return <MyList items={items} />;
   }
 }
 Main.propTypes = {
